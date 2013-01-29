@@ -33,9 +33,15 @@
 			width: 92%;
 		}
 		
+		#add-combo .combo-container {
+			border:1px solid #f2c779;
+			background:#fff8c4;
+			color:#ed7c18;
+		}
+		
 		.combo-container {
-			border:1px solid #9ac1fa;
-			background:#dbeefe;
+			border:1px solid silver; /*#9ac1fa;*/
+			/*background:#dbeefe;*/
 			color: black;
 			-webkit-border-radius:5px;
 			-moz-border-radius:5px;
@@ -47,6 +53,7 @@
 		
 		.combo-container a.button {
 			margin: 0px;
+			cursor: pointer;
 		}
 		
 		.combo-container .food-2 {
@@ -58,15 +65,19 @@
 		.combo-container .author {
 			margin-left: 2px;
 		}
+		
+		.header_bg {
+			min-height: 20px;
+		}
 	</style>
  
     <!-- Header -->
     <header class="header_bg clearfix">
 		<div class="container clearfix">
 			 <!-- Logo -->
-			<div class="logo">
-				<!-- <a href="index.html"><img src="images/logo.png" alt="" /></a> -->
-			</div>
+			
+				<h1>FoodCombo</h1>
+			
 			 <!-- /Logo -->
 		</div>
 	</header>
@@ -74,13 +85,8 @@
     
 	<!-- START CONTENT -->
     <section class="container clearfix">
-		<!-- Page Title -->
-			<header class="container page_info clearfix">
-								
-				<div class="clear"></div>
-			</header>
-			
-		<!-- /Page Title -->
+		
+		<div class="clear padding20"></div>
 
 		
         <div id="combo-input" class="container">
@@ -96,15 +102,21 @@
 				</div>
 			</form>
         </div>
-		
-		<div class="clear"></div>
+				
+		<div class="clear padding20"></div>
 		
 		<div id="add-combo" class="container">
-			
+			<div class="combo-container">
+				
+				<a class="button white">&#43; add to list</a>
+				<a href="#" class="food-2">Vinegar</a>
+				<span class="author">By Sanjeev De Silva</span>
+			</div>
 		</div>
         
-		<div class="clear padding20"></div>
+		
 		<div class="clear"></div>
+		<hr />
 		
         <div id="combo-results" class="container">
 			<div class="combo-container">
@@ -136,9 +148,7 @@
 				<span class="author">By Sanjeev De Silva</span>
 			</div>
 		</div>
-	
-		<div class="clear padding20"></div>
-	
+		
 		<div class="clear"></div>
 	
 	</section>
