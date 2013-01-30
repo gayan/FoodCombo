@@ -14,7 +14,8 @@
     <meta name="robots" content="index,follow" />
     <link rel="shortcut icon" href="images/favicon.ico" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <!--[if (gte IE 6)&(lte IE 8)]>
+    <link rel="stylesheet" href="css/add2home.css">
+	<!--[if (gte IE 6)&(lte IE 8)]>
 <script type="text/javascript" src="js/html5.js"></script>
 <script type="text/javascript" src="js/selectivizr-min.js"></script>
 <link rel="stylesheet" href="css/ie_7.css" type="text/css" />
@@ -24,7 +25,41 @@
     <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
     <script type="text/javascript" src="js/all-in-one.js"></script>
     <script type="text/javascript" src="js/setup.js"></script>
-
+	<script type="application/javascript" src="js/add2home.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {			
+			$('#add-combo-button').click(function() {
+				// TODO: AJAX call to add it to the database
+				
+				// hide the add-combo area
+				$('#add-combo').hide();
+				
+				// Create new element and add it at the top of
+				// the list below
+				var $newComboContainer = $('<div>', {class : 'combo-container'});
+				
+				var $newCurrentScore = $('<span>', {class : "current-score"}).html('0');
+				
+				var $newUpButton = $('<a>', {class : 'button white'}).html('&#x25B2;');
+				
+				var $newDownButton = $('<a>', {class : 'button white'}).html('&#x25BC;');
+				
+				var $newFood = $('<a>', {class : 'food-2', href : '#' }).html('Food');
+				
+				var $newAuthor = $('<span>', {class : "author"}).html('By Author');
+				
+				$newComboContainer.append($newCurrentScore);
+				$newComboContainer.append($newUpButton);
+				$newComboContainer.append($newDownButton);
+				$newComboContainer.append($newFood);
+				$newComboContainer.append($newAuthor);
+				
+				$newComboContainer.hide().appendTo('#combo-results').fadeIn('slow');
+			});
+		});
+	</script>
+	
 	<style>
 		#combo-input-form {
 			text-align: center;
@@ -56,6 +91,16 @@
 			cursor: pointer;
 		}
 		
+		.combo-container .current-score {
+			display: inline;
+			float: left;
+			line-height: 30px;
+			margin-right: 5px;
+			text-align: right;
+			width: 30px;
+		}
+
+				
 		.combo-container .food-2 {
 			font-weight: bold;
 			margin-left: 10px;
@@ -107,8 +152,7 @@
 		
 		<div id="add-combo" class="container">
 			<div class="combo-container">
-				
-				<a class="button white">&#43; add to list</a>
+				<a id="add-combo-button" class="button white">&#43; add to list</a>
 				<a href="#" class="food-2">Vinegar</a>
 				<span class="author">By Sanjeev De Silva</span>
 			</div>
@@ -127,21 +171,21 @@
 				<span class="author">By Sanjeev De Silva</span>
 			</div>
 			<div class="combo-container">
-				<span class="current-score">+100</span>
+				<span class="current-score">+10</span>
 				<a class="button white">&#x25B2;</a>
 				<a class="button white">&#x25BC;</a>
 				<a href="#" class="food-2">Vinegar</a>
 				<span class="author">By Sanjeev De Silva</span>
 			</div>
 			<div class="combo-container">
-				<span class="current-score">+100</span>
+				<span class="current-score">+1</span>
 				<a class="button white">&#x25B2;</a>
 				<a class="button white">&#x25BC;</a>
 				<a href="#" class="food-2">Vinegar</a>
 				<span class="author">By Sanjeev De Silva</span>
 			</div>
 			<div class="combo-container">
-				<span class="current-score">+100</span>
+				<span class="current-score">+1</span>
 				<a class="button white">&#x25B2;</a>
 				<a class="button white">&#x25BC;</a>
 				<a href="#" class="food-2">Vinegar</a>
