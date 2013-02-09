@@ -19,37 +19,37 @@ class Combo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var integer
+     * @var \Food\ComboBundle\Entity\Food
 	 *
 	 * @ORM\ManyToOne(targetEntity="Food")
      * @ORM\JoinColumn(name="foodId1", referencedColumnName="id")
      */
-    private $food1;
+    protected $food1;
 
     /**
-     * @var integer
+     * @var \Food\ComboBundle\Entity\Food
      *
 	 * @ORM\ManyToOne(targetEntity="Food")
-     * @ORM\Column(name="foodId2", type="integer")
+     * @ORM\JoinColumn(name="foodId2", referencedColumnName="id")
      */
-    private $food2;
+    protected $food2;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdOn", type="datetime")
      */
-    private $createdOn;
+    protected $createdOn;
 
     /**
      * @var string
      *
      * @ORM\Column(name="createdBy", type="string", length=255)
      */
-    private $createdBy;
+    protected $createdBy;
 
 
     /**

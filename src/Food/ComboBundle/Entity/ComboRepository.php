@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class ComboRepository extends EntityRepository
 {
+	public function getCombosWith($foodName)
+	{
+		$query = $this->getEntityManager()
+			->createQuery('
+				SELECT c FROM FoodComboBundle:Combo c, FoodComboBundle:Food f
+				WHERE f.foodName = :foodName and c.food1 = f or c.food2 = f
+				ORDER BY c.id desc')->setParameter('foodName', $foodName);
+		
+		return $query->getResult();
+	}
 }

@@ -19,37 +19,37 @@ class Combo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @var integer
+     * @var \Food\ComboBundle\Entity\Food
 	 *
 	 * @ORM\ManyToOne(targetEntity="Food")
      * @ORM\JoinColumn(name="foodId1", referencedColumnName="id")
      */
-    private $food1;
+    protected $food1;
 
     /**
-     * @var integer
+     * @var \Food\ComboBundle\Entity\Food
      *
 	 * @ORM\ManyToOne(targetEntity="Food")
-     * @ORM\Column(name="foodId2", type="integer")
+     * @ORM\JoinColumn(name="foodId2", referencedColumnName="id")
      */
-    private $food2;
+    protected $food2;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdOn", type="datetime")
      */
-    private $createdOn;
+    protected $createdOn;
 
     /**
      * @var string
      *
      * @ORM\Column(name="createdBy", type="string", length=255)
      */
-    private $createdBy;
+    protected $createdBy;
 
 
     /**
@@ -63,9 +63,9 @@ class Combo
     }
 
     /**
-     * Set foodId1
+     * Set food1
      *
-     * @param integer $foodId1
+     * @param integer $food1
      * @return Combo
      */
     public function setFood1($food1)
@@ -76,7 +76,7 @@ class Combo
     }
 
     /**
-     * Get foodId1
+     * Get food1
      *
      * @return integer 
      */
@@ -86,9 +86,9 @@ class Combo
     }
 
     /**
-     * Set foodId2
+     * Set food2
      *
-     * @param integer $foodId2
+     * @param integer $food2
      * @return Combo
      */
     public function setFood2($food2)
@@ -99,7 +99,7 @@ class Combo
     }
 
     /**
-     * Get foodId2
+     * Get food2
      *
      * @return integer 
      */

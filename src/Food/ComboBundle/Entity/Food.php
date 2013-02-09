@@ -19,28 +19,28 @@ class Food
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="foodName", type="string", length=255)
      */
-    private $name;
+    protected $foodName;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdOn", type="datetime")
      */
-    private $createdOn;
+    protected $createdOn;
 
     /**
      * @var string
      *
      * @ORM\Column(name="createdBy", type="string", length=255)
      */
-    private $createdBy;
+    protected $createdBy;
 
 
     /**
@@ -54,26 +54,26 @@ class Food
     }
 
     /**
-     * Set name
+     * Set foodName
      *
-     * @param string $name
+     * @param string $foodName
      * @return Food
      */
-    public function setName($name)
+    public function setFoodName($foodName)
     {
-        $this->name = $name;
+        $this->foodName = $foodName;
     
         return $this;
     }
 
     /**
-     * Get name
+     * Get foodName
      *
      * @return string 
      */
-    public function getName()
+    public function getFoodName()
     {
-        return $this->name;
+        return $this->foodName;
     }
 
     /**

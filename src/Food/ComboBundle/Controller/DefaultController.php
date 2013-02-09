@@ -14,11 +14,15 @@ class DefaultController extends Controller
 			$food = $this->getDoctrine()
 				->getRepository('FoodComboBundle:Food')
 				->getLatestOne();
-			$foodName = $food->getName();
+			$foodName = $food->getFoodName();
 		}
 		
-		// TODO: get all combos with this food.
+		$matchingCombos = $this->getDoctrine()
+			->getRepository('FoodComboBundle:Combo')
+			->getCombosWith($food);
 		
-        return $this->render('FoodComboBundle:Default:index.html.twig', array("foodName1" => $foodName));
+        return $this->render('FoodComboBundle:Default:index.html.twig', array(
+																		"foodName1" => $foodName,
+																		"matchingCombos" => $matchingCombos));
     }
 }

@@ -164,11 +164,19 @@
 		<hr />
 		
         <div id="combo-results" class="container">
-			<div class="combo-container">
-				<span class="current-score">+100</span>
-				<a class="button white">&#x25B2;</a><a class="button white">&#x25BC;</a>
-				<a href="#" class="food-2">Vinegar</a>
-			</div>
+			{% for combo in matchingCombos %}
+				<div class="combo-container">
+					<span class="current-score">+100</span>
+					<a class="button white">&#x25B2;</a><a class="button white">&#x25BC;</a>
+					<a href="#" class="food-2">
+					{% if combo.food1.getFoodName() == foodName1 %}
+						{{combo.food2.getFoodName()}}
+					{% else %}
+						{{combo.food1.getFoodName()}}						
+					{% endif %}
+					</a>
+				</div>
+			{% endfor %}
 			<div class="combo-container">
 				<span class="current-score">+10</span>
 				<a class="button white">&#x25B2;</a><a class="button white">&#x25BC;</a>
