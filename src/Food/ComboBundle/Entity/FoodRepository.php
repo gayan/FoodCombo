@@ -26,4 +26,20 @@ class FoodRepository extends EntityRepository
 			return null;
 		}
 	}
+	
+	public function search($searchString) 
+	{   
+		$query = $this->getEntityManager()->getRepository("FoodComboBundle:Food")
+			->createQueryBuilder('f')
+			->where('f.foodName LIKE :foodName')
+			->setParameter('foodName', '%'.$searchString.'%')
+			->setMaxResults(20)
+			->getQuery();
+		
+		try {
+			return $query->getResult();;
+		} catch (\Doctrine\ORM\NoResultException $e) {
+			return null;
+		}
+	}
 }

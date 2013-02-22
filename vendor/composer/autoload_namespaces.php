@@ -18,6 +18,7 @@ return array(
     'Sensio\\Bundle\\DistributionBundle' => $vendorDir . '/sensio/distribution-bundle/',
     'Monolog' => $vendorDir . '/monolog/monolog/src/',
     'Metadata\\' => $vendorDir . '/jms/metadata/src/',
+    'JMS\\SerializerBundle' => $vendorDir . '/jms/serializer-bundle/',
     'JMS\\SecurityExtraBundle' => $vendorDir . '/jms/security-extra-bundle/',
     'JMS\\DiExtraBundle' => $vendorDir . '/jms/di-extra-bundle/',
     'JMS\\AopBundle' => $vendorDir . '/jms/aop-bundle/',

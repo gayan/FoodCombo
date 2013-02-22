@@ -1,3 +1,7 @@
 food_combo_homepage:
     pattern:  /{foodName}
     defaults: { _controller: FoodComboBundle:Default:index, foodName: _ }
+    
+search:
+    pattern: /search/{q}
+    defaults: { _controller: FoodComboBundle:Default:search, q: _ }
