@@ -102,6 +102,14 @@ class DefaultController extends Controller
 		return $this->jsonResponse($matchingFood, self::HTTP_OK);
 	}
 	
+	public function getCombosAction($foodId) {
+		$matchingCombos = $this->getDoctrine()
+			->getRepository('FoodComboBundle:Combo')
+			->getCombosWith($foodId);
+			
+		return $this->jsonResponse($matchingCombos, self::HTTP_OK);
+	}
+	
 	private function jsonResponse($data, $httpCode = 200)
 	{
 		$serializer = $this->container->get('serializer');

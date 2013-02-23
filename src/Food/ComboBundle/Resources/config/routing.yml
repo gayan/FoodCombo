@@ -5,3 +5,7 @@ food_combo_homepage:
 search:
     pattern: /search/{q}
     defaults: { _controller: FoodComboBundle:Default:search, q: _ }
+    
+combos:
+    pattern: /combos/{foodId}
+    defaults: { _controller: FoodComboBundle:Default:getCombos, foodId: _ }
