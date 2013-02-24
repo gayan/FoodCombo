@@ -19,16 +19,9 @@ class DefaultController extends Controller
 			$food = $this->getDoctrine()
 				->getRepository('FoodComboBundle:Food')
 				->getLatestOne();
-			$foodName = $food->getFoodName();
-		}
-		
-		$matchingCombos = $this->getDoctrine()
-			->getRepository('FoodComboBundle:Combo')
-			->getCombosWith($food);
-		
+		}		
         return $this->render('FoodComboBundle:Default:index.html.twig', array(
-																		"foodName1" => $foodName,
-																		"matchingCombos" => $matchingCombos));
+																		"food1" => $food));
 	}
     
 	public function addComboAction($food1, $food2)

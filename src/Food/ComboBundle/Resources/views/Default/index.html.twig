@@ -32,16 +32,16 @@
 		$(document).ready(function() {
 
 			var comboUtils = {
-				addNewComboToDom: function(containerSelector) {
-					// Create new element and add it at the top of
+				addExistingComboToDom: function(combo) {
+                    // Create new element and add it at the top of
 					// the list below
 					var $newComboContainer = $('<div>', {class : 'combo-container'});
 					var $newCurrentScore = $('<span>', {class : "current-score"}).html('0');					
 					var $newUpButton = $('<a>', {class : 'button white'}).html('&#x25B2;');
 					var $newDownButton = $('<a>', {class : 'button white'}).html('&#x25BC;');
-					var $newFood1 = $('<a>', {class : 'food-name', href : '#' }).html('food1');
+					var $newFood1 = $('<a>', {class : 'food-name', href : '#' }).html(combo.food1.food_name);
 					var $newCombineSpan =  $('<span>', {class: 'combine'}).html('&amp;');
-					var $newFood2 = $('<a>', {class: 'food-name', href: '#'}).html('food2');
+					var $newFood2 = $('<a>', {class: 'food-name', href: '#' }).html(combo.food2.food_name);
 					
 					$newComboContainer.append($newCurrentScore);
 					$newComboContainer.append($newUpButton);
@@ -49,8 +49,32 @@
 					$newComboContainer.append($newFood1);
 					$newComboContainer.append($newCombineSpan);
 					$newComboContainer.append($newFood2);
+                    
+                    // storing meta data in the dom.
+                    $newComboContainer.data('jsonObject', combo);                    
 					
-					$newComboContainer.hide().appendTo(containerSelector).fadeIn('slow');
+					$newComboContainer.hide().appendTo('#combo-results').fadeIn('slow');
+                },
+                addNewComboToDom: function(combo) {
+					// Create new element and add it at the top of
+					// the list below
+					var $newComboContainer = $('<div>', {class : 'combo-container'});
+					var $newClearButton = $('<a>', {class : "button red clear-combo-button"}).html('X');
+					var $newSaveButton = $('<a>', {class : "button green add-combo-button"}).html('save');
+					var $newFood1 = $('<a>', {class : 'food-name', href : '#' }).html(combo.food1.food_name);
+					var $newCombineSpan =  $('<span>', {class: 'combine'}).html('&amp;');
+					var $newFood2 = $('<a>', {class: 'food-name', href: '#' }).html(combo.food2.food_name);
+					
+					$newComboContainer.append($newClearButton);
+					$newComboContainer.append($newSaveButton);
+					$newComboContainer.append($newFood1);
+					$newComboContainer.append($newCombineSpan);
+					$newComboContainer.append($newFood2);
+                    
+                    // storing meta data in the dom.
+                    $newComboContainer.data('jsonObject', combo);                    
+					
+					$newComboContainer.hide().appendTo('#add-combo').fadeIn('slow');
 				},
 				delay: (function(){
 				  var timer = 0;
@@ -75,19 +99,30 @@
                       }
                     });
                 },
-				food1Name: undefined,
-				food1Id: undefined,
+				food1Name: "{{food1.foodName}}",
+				food1Id: "{{food1.id}}",
 				food2Name: undefined,
-				food2Id: undefined
+				food2Id: undefined,
+                getCombos: function(food1Id){
+                    $.getJSON(comboUtils.combosURL + '/' + food1Id, function(data) {
+                      $('#combo-results').empty();
+                      $.each(data, function() {
+                        comboUtils.addExistingComboToDom(this);
+                      });
+                    });
+                }
 			};
+            
+            // populate page
+            comboUtils.getCombos({{food1.id}});
 		
-			$('#add-combo-button').click(function() {
+			$('.add-combo-button').click(function() {
 				// TODO: AJAX call to add it to the database
 				
 				// hide the add-combo area
 				$('#add-combo').hide();
 				
-				comboUtils.addNewComboToDom('#combo-results');
+				comboUtils.addExistingComboToDom(undefined);
 			});
 			
 			$( "#food1Name" ).autocomplete({
@@ -95,18 +130,12 @@
 				comboUtils.searchFood(response, $('#food1Name').val());
 			  },
 			  minLength: 1,
-			  select: function( event, ui ) {
-				comboUtils.food1Name = this.value;
-				
+			  select: function( event, ui ) {				
                 if(ui.item) {
-                    comboUtils.food1Id = ui.item.id
+                    comboUtils.food1Name = ui.item.label;
+                    comboUtils.food1Id = ui.item.id;
                     
-                    $.getJSON(comboUtils.combosURL + '/' + ui.item.id, function(data) {
-                      $('#combo-results').empty();
-                      $.each(data, function() {
-                        comboUtils.addNewComboToDom("#combo-results");
-                      });
-                    });
+                    comboUtils.getCombos(ui.item.id);
                     
                     $('#food2Name').focus();
                 }
@@ -116,6 +145,13 @@
 			$( "#food1Name" ).focus(function(){
 				comboUtils.food1Id = undefined;
 				comboUtils.food1Name = undefined;
+                comboUtils.food2Id = undefined;
+				comboUtils.food2Name = undefined;
+                
+                $('#combo-results').empty();
+                
+                this.value = "";
+                $( "#food2Name" ).val('');
 			});
 			
 			$( "#food1Name" ).blur(function(){
@@ -129,15 +165,43 @@
 				comboUtils.searchFood(response, $('#food2Name').val());
 			  },
 			  minLength: 1,
-			  select: function( event, ui ) {
-				comboUtils.food2Name = this.value;
-				
+			  select: function( event, ui ) {				
                 if(ui.item) {
-                    comboUtils.food2Id = ui.item.id
+                    comboUtils.food2Name = ui.item.label;
+                    comboUtils.food2Id = ui.item.id;
                     
-                    // TODO: filter the result set
+                    // filter the result set
+                    isFound = false;
+                    $('#combo-results').children().each(function() {
+                        if($(this).data('jsonObject').food2.id == ui.item.id) {
+                            isFound = true;
+                            $(this).fadeIn();
+                        } else {
+                            $(this).fadeOut();
+                        }
+                    });
                     
-                    //$('#food2Name').blur();
+                    if(isFound) {
+                        $('#add-combo').hide();
+                    } else {
+                        comboUtils.addNewComboToDom({
+                                                        id: undefined,
+                                                            food1: {
+                                                                id: comboUtils.food1Id,
+                                                                food_name: comboUtils.food1Name  
+                                                            },
+                                                            food2: {
+                                                                id: ui.item.id,
+                                                                food_name: ui.item.label
+                                                            },
+                                                            created_on: new Date(),
+                                                            created_by: "user"
+                                                    });
+                    }
+                    
+                    $('#add-combo').fadeIn();
+                    
+                    $('#food2Name').blur();
                 }
 			  }
 			});
@@ -145,6 +209,9 @@
             $( "#food2Name" ).focus(function(){
 				comboUtils.food2Id = undefined;
 				comboUtils.food2Name = undefined;
+                this.value = "";
+                
+                $('#combo-results > .combo-container').fadeIn();
 			});
 		});
 	</script>
@@ -235,7 +302,7 @@
         <div id="combo-input" class="container">
         	<form id="combo-input-form">
 				<div class="col_1_3">
-					<input type="text" id="food1Name" name="food1" value={{foodName1}} />
+					<input type="text" id="food1Name" name="food1" value={{food1.foodName}} />
 				</div>
 				<div class="col_1_3">
 					AND
@@ -249,12 +316,6 @@
 		<div class="clear padding20"></div>
 		
 		<div id="add-combo" class="container">
-			<div class="combo-container">
-				<a id="add-combo-button" class="button white">&#43; add to list</a>
-				<a href="#" class="food-name">{{foodName1}}</a>
-				<span class="combine">&amp;</span>
-				<a href="#" class="food-name">Vinegar</a>
-			</div>
 		</div>
         
 		
@@ -262,21 +323,6 @@
 		<hr />
 		
         <div id="combo-results" class="container">
-			{% for combo in matchingCombos %}
-				<div class="combo-container">
-					<span class="current-score">+100</span>
-					<a class="button white">&#x25B2;</a><a class="button white">&#x25BC;</a>
-					<a href="#{{combo.food1.id}}" class="food-name">{{foodName1}}</a>
-					<span class="combine">&amp;</span>
-					<a href="#{{combo.food2.id}}" class="food-name">
-					{% if combo.food1.getFoodName() == foodName1 %}
-						{{combo.food2.getFoodName()}}
-					{% else %}
-						{{combo.food1.getFoodName()}}						
-					{% endif %}
-					</a>
-				</div>
-			{% endfor %}
 		</div>
 		
 		<div class="clear"></div>
