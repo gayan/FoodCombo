@@ -131,11 +131,14 @@
                             "/" + 
                             (comboUtils.food2Id === undefined ? comboUtils.food2Name : comboUtils.food2Id);
                 
+                comboUtils.lastAdded = $(this).parent();
+                
+                comboUtils.lastAdded.html("adding item...");
+                
                 $.post(url, function(data) {
                   comboUtils.addExistingComboToDom(data);
+                  comboUtils.lastAdded.remove();
                 });
-                
-                $(this).parent().remove();
 			});
 			
 			$( "#food1Name" ).autocomplete({
@@ -232,8 +235,8 @@
 					comboUtils.food2Name = _this.value;
                     
                     // we have to create a new combo
-                    if(comboUtils.food2Name !== undefined){
-                        comboUtils.addNewComboToDom({
+                    if(comboUtils.food2Name !== undefined && comboUtils.food2Name !== ''){
+                        var newCombo = {
                                                         id: undefined,
                                                             food1: {
                                                                 id: comboUtils.food1Id,
@@ -245,7 +248,15 @@
                                                             },
                                                             created_on: new Date(),
                                                             created_by: "user"
-                                                    });
+                                                    };
+                        if(
+                            comboUtils.lastAddedCombo === undefined ||
+                            (comboUtils.lastAddedCombo.food1.food_name != newCombo.food1.food_name ||
+                            comboUtils.lastAddedCombo.food2.food_name != newCombo.food2.food_name)                         
+                        ) {
+                            comboUtils.addNewComboToDom(newCombo);
+                            comboUtils.lastAddedCombo = newCombo;
+                        }
                     }
 				}
             }
@@ -255,10 +266,20 @@
 			});
             
             $( "#food2Name" ).keypress(function(e){
-				if(e.which == 13) {
+				// if they hit enter
+                if(e.which == 13) {
                     handleNewFoods(this);
                 }
 			});
+            
+            var timer = null;
+            $( "#food2Name" ).keydown(function(){
+                clearTimeout(timer);
+                var food2Name = this;
+                timer = setTimeout(function() {
+                    handleNewFoods(food2Name)
+                }, 1000)
+            });
 		});
 	</script>
 	
