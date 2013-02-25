@@ -42,6 +42,9 @@ class Food
      */
     protected $createdBy;
 
+    public function __construct() {
+        $this->createdOn = new \DateTime();
+    }
 
     /**
      * Get id

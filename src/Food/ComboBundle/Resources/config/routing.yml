@@ -9,3 +9,7 @@ search:
 combos:
     pattern: /combos/{foodId}
     defaults: { _controller: FoodComboBundle:Default:getCombos, foodId: _ }
+
+save:
+    pattern: /combo/{food1}/{food2}
+    defaults: { _controller: FoodComboBundle:Default:addCombo, food1: ~, food2: ~ }

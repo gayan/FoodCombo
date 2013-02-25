@@ -17,7 +17,7 @@ class ComboRepository extends EntityRepository
 		$query = $this->getEntityManager()
 			->createQuery('
 				SELECT c FROM FoodComboBundle:Combo c, FoodComboBundle:Food f
-				WHERE f.id = :foodId and c.food1 = f
+				WHERE (f.id = :foodId) and (c.food1 = f or c.food2 = f)
 				ORDER BY c.id desc')->setParameter('foodId', $food);
 		
 		return $query->getResult();

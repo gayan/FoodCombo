@@ -4,6 +4,8 @@ namespace Food\ComboBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Food\ComboBundle\Entity\Food;
+use Food\ComboBundle\Entity\Combo;
 
 class DefaultController extends Controller
 {
@@ -14,12 +16,21 @@ class DefaultController extends Controller
 	
     public function indexAction($foodName)
     {
-		if($foodName == "_")
+		if($foodName != "_")
 		{
-			$food = $this->getDoctrine()
+            $food = $this->getDoctrine()
+							->getRepository('FoodComboBundle:Food')
+							->search($foodName);
+		}
+        
+        if(!isset($food)) {
+            $food = $this->getDoctrine()
 				->getRepository('FoodComboBundle:Food')
 				->getLatestOne();
-		}		
+        } else {
+            $food = $food[0];
+        }
+        
         return $this->render('FoodComboBundle:Default:index.html.twig', array(
 																		"food1" => $food));
 	}
@@ -33,7 +44,7 @@ class DefaultController extends Controller
 		{
 			$food1Entity = $this->getDoctrine()
 								->getRepository('FoodComboBundle:Food')
-								->get($food1);
+								->findOneById($food1);
 			if($food1Entity == null)
 			{
 				return $this->jsonResponse("Food id invalid $food1", self::HTTP_BAD_REQUEST);
@@ -42,11 +53,12 @@ class DefaultController extends Controller
 		else {
 			$food1Entity = $this->getDoctrine()
 								->getRepository('FoodComboBundle:Food')
-								->getByName($food1);
+								->findOneByFoodName($food1);
 			if($food1Entity == null)
 			{
 				$food1Entity = new Food();
 				$food1Entity->setFoodName($food1);
+				$food1Entity->setCreatedBy($_SERVER['REMOTE_ADDR']);
 				$em->persist($food1Entity);
 			}
 		}
@@ -56,7 +68,7 @@ class DefaultController extends Controller
 		{
 			$food2Entity = $this->getDoctrine()
 								->getRepository('FoodComboBundle:Food')
-								->get($food2);
+								->findOneById($food2);
 			if($food2Entity == null)
 			{
 				return $this->jsonResponse("Food id invalid $food2", self::HTTP_BAD_REQUEST);
@@ -65,11 +77,12 @@ class DefaultController extends Controller
 		else {
 			$food2Entity = $this->getDoctrine()
 								->getRepository('FoodComboBundle:Food')
-								->getByName($food2);
+								->findOneByFoodName($food2);
 			if($food2Entity == null)
 			{
 				$food2Entity = new Food();
 				$food2Entity->setFoodName($food2);
+				$food2Entity->setCreatedBy($_SERVER['REMOTE_ADDR']);
 				$em->persist($food2Entity);
 			}
 		}
@@ -78,6 +91,7 @@ class DefaultController extends Controller
 		$newCombo = new Combo();
 		$newCombo->setFood1($food1Entity);
 		$newCombo->setFood2($food2Entity);
+		$newCombo->setcreatedBy($_SERVER['REMOTE_ADDR']);
 		
 		
 		$em->persist($newCombo);

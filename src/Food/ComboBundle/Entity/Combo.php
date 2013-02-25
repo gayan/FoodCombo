@@ -50,7 +50,10 @@ class Combo
      * @ORM\Column(name="createdBy", type="string", length=255)
      */
     protected $createdBy;
-
+    
+    public function __construct() {
+        $this->createdOn = new \DateTime();
+    }
 
     /**
      * Get id
