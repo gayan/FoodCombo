@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 -- Dumping data for table `food`
 --
 
-INSERT INTO `food` (`id`, `foodName`, `createdOn`, `createdBy`) VALUES
+INSERT INTO `Food` (`id`, `foodName`, `createdOn`, `createdBy`) VALUES
 (1, 'popcorn', '0000-00-00 00:00:00', '127.0.0.1'),
 (2, 'naan', '0000-00-00 00:00:00', '127.0.0.1'),
 (3, 'potato chips', '0000-00-00 00:00:00', '127.0.0.1'),

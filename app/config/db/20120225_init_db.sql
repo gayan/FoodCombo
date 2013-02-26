@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `combo`
 --
 
-CREATE TABLE IF NOT EXISTS `combo` (
+CREATE TABLE IF NOT EXISTS `Combo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `foodId2` int(11) DEFAULT NULL,
   `createdOn` datetime NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `combo` (
 -- Table structure for table `food`
 --
 
-CREATE TABLE IF NOT EXISTS `food` (
+CREATE TABLE IF NOT EXISTS `Food` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `foodName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `createdOn` datetime NOT NULL,
@@ -52,6 +52,6 @@ CREATE TABLE IF NOT EXISTS `food` (
 --
 -- Constraints for table `combo`
 --
-ALTER TABLE `combo`
-  ADD CONSTRAINT `FK1_FOOD` FOREIGN KEY (`foodId2`) REFERENCES `food` (`id`),
-  ADD CONSTRAINT `FK2_FOOD` FOREIGN KEY (`foodId1`) REFERENCES `food` (`id`);
+ALTER TABLE `Combo`
+  ADD CONSTRAINT `FK1_FOOD` FOREIGN KEY (`foodId2`) REFERENCES `Food` (`id`),
+  ADD CONSTRAINT `FK2_FOOD` FOREIGN KEY (`foodId1`) REFERENCES `Food` (`id`);
