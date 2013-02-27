@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta property="og:title" content="{{combo.food1.foodName}} &amp; {{combo.food2.foodName}}"/>
+    <meta property="og:type" content="food"/>
+    <meta property="og:url" content="{{ path(app.request.attributes.get('_route')) }}"/>
+    <meta property="og:image" content="{{ asset('images/code-icon.png') }}"/>
+    <meta property="og:site_name" content="nom pairings"/>
+    <meta property="fb:admins" content="21009809"/>
+    <meta property="og:description"
+          content="Do you think {{combo.food1.foodName}} &amp; {{combo.food2.foodName}} is a great pairing of food?"/>
+    <title>nom pairings - combo - {{combo.food1.foodName}} &amp; {{combo.food2.foodName}}</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="nom nom, food, combine, combinations, pairings" />
+    <meta name="robots" content="index,follow" />
+    <link rel="apple-touch-icon" href="{{ asset('images/code-icon.png') }}"/>
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css" />
+    <link rel="stylesheet" href="{{ asset('css/add2home.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css">
+	<!--[if (gte IE 6)&(lte IE 8)]>
+    <script type="text/javascript" src="js/html5.js"></script>
+    <script type="text/javascript" src="js/selectivizr-min.js"></script>
+    <link rel="stylesheet" href="css/ie_7.css" type="text/css" />
+    <![endif]-->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{ asset('js/all-in-one-min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/setup.js') }}"></script>
+	<script type="application/javascript" src="{{ asset('js/add2home.js') }}"></script>
+	
+	<style>
+		#combo-input-form {
+			text-align: center;
+		}
+		#combo-input-form input {
+			width: 98%;
+			height: 20px;
+			font-size: 20px;
+			margin: 0px;
+			padding: 1%;
+		}
+		
+		#add-combo .combo-container {
+			border:1px solid #f2c779;
+			background:#fff8c4;
+			color:#ed7c18;
+			font-size: 20px;
+		}
+		
+		.combo-container {
+			border:1px solid silver; /*#9ac1fa;*/
+			/*background:#dbeefe;*/
+			color: black;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			padding:8px 10px;
+			line-height:22px;
+			margin-bottom:10px;
+		}
+		
+		.combo-container a.button {
+			margin: 0px 5px 0px 0px;
+			cursor: pointer;
+		}
+		
+		.combo-container .current-score {
+			display: inline;
+			float: left;
+			line-height: 30px;
+			margin-right: 5px;
+			text-align: right;
+			width: 30px;
+		}
+
+				
+		.combo-container .food-name, .combo-container .combine {
+			margin-left: 10px;
+			color:#4180cf;
+			font-size: 20px;
+		}
+		
+		.combo-container .combine {
+			color:#000000;
+		}
+		
+		.combo-container .author {
+			margin-left: 2px;
+		}
+		
+		.header_bg {
+			min-height: 20px;
+		}
+	</style>
+ 
+    <!-- Header -->
+    <header class="header_bg clearfix">
+		<div class="container clearfix">
+			 <!-- Logo -->
+			
+				<h1>nom pairings</h1>
+			
+			 <!-- /Logo -->
+		</div>
+	</header>
+    <!-- /Header -->
+    
+	<!-- START CONTENT -->
+    <section class="container clearfix">
+		
+		<div class="clear padding20"></div>
+        
+        <div id="combo-input" class="container">
+        	<h3><a href="{{ path('food_combo_homepage') }}" title="home">See more pairings</a></h3>
+        </div>
+				
+		<div class="clear padding20"></div>
+        
+        <div id="combo-results" class="container">
+            <div class="combo-container" id="combo-21" style="">
+                <fb:like href="http://nompairings.com{{ path('food_combo_homepage', { comboId: combo.id }) }}" send="false" layout="button_count" show_faces="false"></fb:like>
+                <a class="food-name" href="{{ path('food_combo_homepage', { foodName: combo.food1.foodName }) }}">{{combo.food1.foodName}}</a>
+                <span class="combine">&amp;</span>
+                <a class="food-name" href="{{ path('food_combo_homepage', { foodName: combo.food2.foodName }) }}">{{combo.food2.foodName}}</a></div>
+		</div>
+		
+		<div class="clear"></div>
+	
+	</section>
+    <!-- END CONTENT -->
+	
+    </div>
+    <!--wrapper end-->
+    
+    <div id="fb-root"></div>
+    
+    <script type="text/javascript">
+        window.fbAsyncInit = function() {
+            FB.init({appId: '617352054947393', status: true, cookie: true, xfbml: true});
+        };
+        
+        (function() {
+            var e = document.createElement('script'); e.async = true;
+            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+        }());
+    </script>
+    
+    </body>
+</html>

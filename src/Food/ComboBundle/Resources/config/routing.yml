@@ -13,3 +13,11 @@ combos:
 save:
     pattern: /combo/{food1}/{food2}
     defaults: { _controller: FoodComboBundle:Default:addCombo, food1: ~, food2: ~ }
+    requirements:
+        _method:  POST
+        
+get_combo:
+    pattern: /combo/{comboId}
+    defaults: { _controller: FoodComboBundle:Default:getCombo, comboId: ~ }
+    requirements:
+        _method:  GET

@@ -35,6 +35,20 @@ class DefaultController extends Controller
 																		"food1" => $food));
 	}
     
+    public function getComboAction($comboId)
+    {
+        $combo = $this->getDoctrine()
+                ->getRepository('FoodComboBundle:Combo')
+                ->findOneById($comboId);
+                
+        if(!$combo)
+        {
+            throw $this->createNotFoundException('The combo does not exist');
+        }
+        
+        return $this->render('FoodComboBundle:Default:combo.html.twig', array("combo" => $combo));
+    }
+    
 	public function addComboAction($food1, $food2)
 	{
 		$em = $this->getDoctrine()->getManager();

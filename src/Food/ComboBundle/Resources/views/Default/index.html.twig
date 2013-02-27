@@ -28,9 +28,140 @@
     <script type="text/javascript" src="//code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ asset('js/all-in-one-min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/setup.js') }}"></script>
-	<script type="application/javascript" src="{{ asset('js/add2home.js') }}") }}"></script>
+	<script type="application/javascript" src="{{ asset('js/add2home.js') }}"></script>
 	
-	<script type="text/javascript">
+	<style>
+		#combo-input-form {
+			text-align: center;
+		}
+		#combo-input-form input {
+			width: 98%;
+			height: 20px;
+			font-size: 20px;
+			margin: 0px;
+			padding: 1%;
+		}
+		
+		#add-combo .combo-container {
+			border:1px solid #f2c779;
+			background:#fff8c4;
+			color:#ed7c18;
+			font-size: 20px;
+		}
+		
+		.combo-container {
+			border:1px solid silver; /*#9ac1fa;*/
+			/*background:#dbeefe;*/
+			color: black;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			padding:8px 10px;
+			line-height:22px;
+			margin-bottom:10px;
+		}
+		
+		.combo-container a.button {
+			margin: 0px 5px 0px 0px;
+			cursor: pointer;
+		}
+		
+		.combo-container .current-score {
+			display: inline;
+			float: left;
+			line-height: 30px;
+			margin-right: 5px;
+			text-align: right;
+			width: 30px;
+		}
+
+				
+		.combo-container .food-name, .combo-container .combine {
+			margin-left: 10px;
+			color:#4180cf;
+			font-size: 20px;
+		}
+		
+		.combo-container .combine {
+			color:#000000;
+		}
+		
+		.combo-container .author {
+			margin-left: 2px;
+		}
+		
+		.header_bg {
+			min-height: 20px;
+		}
+	</style>
+ 
+    <!-- Header -->
+    <header class="header_bg clearfix">
+		<div class="container clearfix">
+			 <!-- Logo -->
+			
+				<h1>nom pairings</h1>
+			
+			 <!-- /Logo -->
+		</div>
+	</header>
+    <!-- /Header -->
+    
+	<!-- START CONTENT -->
+    <section class="container clearfix">
+		
+		<div class="clear padding20"></div>
+
+		
+        <div id="combo-input" class="container">
+        	<form id="combo-input-form">
+				<div class="col_1_3">
+					<input type="text" id="food1Name" name="food1" value="{{food1.foodName}}" />
+				</div>
+				<div class="col_1_3">
+					AND
+				</div>
+				<div class="col_1_3 last">
+					<input type="text" id="food2Name" name="food1" />
+				</div>
+			</form>
+        </div>
+				
+		<div class="clear padding20"></div>
+		
+		<div id="add-combo" class="container">
+		</div>
+        
+		
+		<div class="clear"></div>
+		<hr />
+		
+        <div id="combo-results" class="container">
+		</div>
+		
+		<div class="clear"></div>
+	
+	</section>
+    <!-- END CONTENT -->
+	
+    </div>
+    <!--wrapper end-->
+    
+    <div id="fb-root"></div>
+    
+    <script type="text/javascript">
+        window.fbAsyncInit = function() {
+            FB.init({appId: '617352054947393', status: true, cookie: true, xfbml: true});
+        };
+        
+        (function() {
+            var e = document.createElement('script'); e.async = true;
+            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+        }());
+    </script>
+    
+    <script type="text/javascript">
 		$(document).ready(function() {
 
 			var comboUtils = {
@@ -39,25 +170,24 @@
 				addExistingComboToDom: function(combo) {
                     // Create new element and add it at the top of
 					// the list below
-					var $newComboContainer = $('<div>', {class : 'combo-container'});
-					var $newCurrentScore = $('<span>', {class : "current-score"}).html('0');					
-					var $newUpButton = $('<a>', {class : 'button white'}).html('&#x25B2;');
-					var $newDownButton = $('<a>', {class : 'button white'}).html('&#x25BC;');
-					var $newFood1 = $('<a>', {class : 'food-name', href : comboUtils.homePageURL+combo.food1.food_name }).html(combo.food1.food_name);
+                    var comboId = 'combo-'+combo.id;
+					var $newComboContainer = $('<div>', {class : 'combo-container', id : comboId});
+					var $newLikeButton = $('<fb:like href="http://nompairings.com'+comboUtils.homePageURL+"combo/"+combo.id+'" send="false" layout="button_count" show_faces="false"></fb:like>');
+                    var $newFood1 = $('<a>', {class : 'food-name', href : comboUtils.homePageURL+combo.food1.food_name }).html(combo.food1.food_name);
 					var $newCombineSpan =  $('<span>', {class: 'combine'}).html('&amp;');
 					var $newFood2 = $('<a>', {class: 'food-name', href: comboUtils.homePageURL+combo.food2.food_name }).html(combo.food2.food_name);
 					
-					$newComboContainer.append($newCurrentScore);
-					$newComboContainer.append($newUpButton);
-					$newComboContainer.append($newDownButton);
+					$newComboContainer.append($newLikeButton);
 					$newComboContainer.append($newFood1);
 					$newComboContainer.append($newCombineSpan);
 					$newComboContainer.append($newFood2);
                     
                     // storing meta data in the dom.
-                    $newComboContainer.data('jsonObject', combo);                    
+                    $newComboContainer.data('jsonObject', combo);
 					
 					$newComboContainer.hide().appendTo('#combo-results').fadeIn('slow');
+                    
+                    FB.XFBML.parse(document.getElementById(comboId));
                 },
                 addNewComboToDom: function(combo) {
 					// Create new element and add it at the top of
@@ -282,123 +412,5 @@
             });
 		});
 	</script>
-	
-	<style>
-		#combo-input-form {
-			text-align: center;
-		}
-		#combo-input-form input {
-			width: 98%;
-			height: 20px;
-			font-size: 20px;
-			margin: 0px;
-			padding: 1%;
-		}
-		
-		#add-combo .combo-container {
-			border:1px solid #f2c779;
-			background:#fff8c4;
-			color:#ed7c18;
-			font-size: 20px;
-		}
-		
-		.combo-container {
-			border:1px solid silver; /*#9ac1fa;*/
-			/*background:#dbeefe;*/
-			color: black;
-			-webkit-border-radius:5px;
-			-moz-border-radius:5px;
-			border-radius:5px;
-			padding:8px 10px;
-			line-height:22px;
-			margin-bottom:10px;
-		}
-		
-		.combo-container a.button {
-			margin: 0px 5px 0px 0px;
-			cursor: pointer;
-		}
-		
-		.combo-container .current-score {
-			display: inline;
-			float: left;
-			line-height: 30px;
-			margin-right: 5px;
-			text-align: right;
-			width: 30px;
-		}
-
-				
-		.combo-container .food-name, .combo-container .combine {
-			margin-left: 10px;
-			color:#4180cf;
-			font-size: 20px;
-		}
-		
-		.combo-container .combine {
-			color:#000000;
-		}
-		
-		.combo-container .author {
-			margin-left: 2px;
-		}
-		
-		.header_bg {
-			min-height: 20px;
-		}
-	</style>
- 
-    <!-- Header -->
-    <header class="header_bg clearfix">
-		<div class="container clearfix">
-			 <!-- Logo -->
-			
-				<h1>nom pairings</h1>
-			
-			 <!-- /Logo -->
-		</div>
-	</header>
-    <!-- /Header -->
-    
-	<!-- START CONTENT -->
-    <section class="container clearfix">
-		
-		<div class="clear padding20"></div>
-
-		
-        <div id="combo-input" class="container">
-        	<form id="combo-input-form">
-				<div class="col_1_3">
-					<input type="text" id="food1Name" name="food1" value="{{food1.foodName}}" />
-				</div>
-				<div class="col_1_3">
-					AND
-				</div>
-				<div class="col_1_3 last">
-					<input type="text" id="food2Name" name="food1" />
-				</div>
-			</form>
-        </div>
-				
-		<div class="clear padding20"></div>
-		
-		<div id="add-combo" class="container">
-		</div>
-        
-		
-		<div class="clear"></div>
-		<hr />
-		
-        <div id="combo-results" class="container">
-		</div>
-		
-		<div class="clear"></div>
-	
-	</section>
-    <!-- END CONTENT -->
-	
-    </div>
-    <!--wrapper end-->
-	
 </body>
 </html>
